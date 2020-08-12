@@ -2,7 +2,8 @@
   <div>
     <div 
       class="mt-1" 
-      v-if="usedKeyword">
+      v-if="usedKeyword"
+      data-testid="results-data">
       <span v-if="countProducts == 0">No result for "{{ this.usedKeyword }}"</span>
       <span v-else-if="countProducts == 1">{{ countProducts }} result for "{{ this.usedKeyword }}"</span>
       <span v-else-if="countProducts > 1">{{ countProducts }} results for "{{ this.usedKeyword }}"</span>
@@ -15,13 +16,15 @@
         <strong 
           class="product-name"
           @click="selectedProduct == index ? selectedProduct = null : selectedProduct = index" 
-          :inner-html.prop="product.brand | capitalize"></strong> - 
+          :inner-html.prop="product.brand | capitalize"
+          data-testid="product-name"></strong> - 
         <span :inner-html.prop="product.name | capitalize"></span>
 
         <transition name="slide" mode="out-in">
           <div 
             class="ingredient-list" 
-            v-show="index == selectedProduct">
+            v-show="index == selectedProduct"
+            data-testid="ingredient-list">
             Ingredients: <span v-html="product.ingredient_list"></span>
           </div>
         </transition>
