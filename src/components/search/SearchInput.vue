@@ -34,7 +34,7 @@ export default {
       this.$emit('productsIsLoading', true);
       this.error = '';
 
-      getProducts(this.keyword)
+      getProducts(this.keyword.trim())
         .then(res => {
           this.$emit('productsIsLoading', false);
 
@@ -58,7 +58,7 @@ export default {
     highlightKeyword(results) {
       results.forEach((product) => {
         //Highlight typed keyword in search results
-        let replaces = this.keyword.split(' ');
+        let replaces = this.keyword.trim().split(' ');
         product.ingredient_list = product.ingredient_list.join(", ");
 
         replaces.forEach((replace) => {
