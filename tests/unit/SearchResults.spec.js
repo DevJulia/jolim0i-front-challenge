@@ -66,12 +66,37 @@ describe('SearchResults', () => {
   })
 
 
+  it('resets the selected product when the products change', async () => {
+    const wrapper = shallowMount(SearchResults, {
+      localVue,
+      propsData: propsData
+    })
+
+    //1. User clicks on product brand
+    wrapper.find('[data-testid="product-name"]').trigger('click');
+
+    //2. Products change
+    wrapper.setProps({
+      products: [
+        {brand: 'Absolution', name: 'La Trousse Absolution', ingredient_list: 'A, B, C'}
+      ],
+      usedKeyword: 'cream'
+    })
+    await wrapper.vm.$nextTick();
+
+    //3. Check that the ingredients are not shown
+    const ingredientList = wrapper.find('[data-testid="ingredient-list"]');
+    expect(ingredientList.element.style.display).toBe('none');
+  })
+
+
   it('hides the ingredients when the user clicks on the selected product', async () => {
     const wrapper = shallowMount(SearchResults, {
       localVue,
       propsData: propsData
     })
-    wrapper.setData({ selectedProduct: 0 })
+    wrapper.findAll('[data-testid="product-name"]').at(0).trigger('click');
+    await wrapper.vm.$nextTick();
 
     //1. User clicks on the selected product
     wrapper.find('[data-testid="product-name"]').trigger('click');
@@ -88,7 +113,8 @@ describe('SearchResults', () => {
       localVue,
       propsData: propsData
     })
-    wrapper.setData({ selectedProduct: 0 })
+    wrapper.findAll('[data-testid="product-name"]').at(0).trigger('click');
+    await wrapper.vm.$nextTick();
 
     //1. User clicks on another product
     wrapper.findAll('[data-testid="product-name"]').at(1).trigger('click');
@@ -113,6 +139,7 @@ describe('SearchResults', () => {
     expect(resultData.text()).toContain(wrapper.props().usedKeyword);
   })
 
+  
   it('shows total number of products', () => {
     const wrapper = shallowMount(SearchResults, {
       localVue,
@@ -122,6 +149,7 @@ describe('SearchResults', () => {
     const resultData = wrapper.find('[data-testid="results-data"]');
     expect(resultData.text()).toContain(wrapper.props().products.length);
   })
+
 
   it('shows different messages according to the number of products', () => {
     const wrapper = shallowMount(SearchResults, {
