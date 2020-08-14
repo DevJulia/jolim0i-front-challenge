@@ -52,16 +52,15 @@ export default {
     highlightKeyword(results) {
       results.forEach((product) => {
         //Highlight typed keyword in search results
-        let replaces = this.keyword.trim().split(' ');
+        let separatedKeywords = this.keyword.trim().split(' ');
         product.ingredient_list = product.ingredient_list.join(", ");
 
-        replaces.forEach((replace) => {
-          let re = new RegExp(replace, "g");
+        separatedKeywords.forEach((keyword) => {
+          let regExp = new RegExp(keyword, "g");
 
-          product.name = product.name.replace(re, `<em>${replace}</em>`);
-          product.brand = product.brand.replace(re, `<em>${replace}</em>`);
-
-          product.ingredient_list = product.ingredient_list.replace(re, `<em>${replace}</em>`);
+          product.name = product.name.replace(regExp, `<em>${keyword}</em>`);
+          product.brand = product.brand.replace(regExp, `<em>${keyword}</em>`);
+          product.ingredient_list = product.ingredient_list.replace(regExp, `<em>${keyword}</em>`);
         })
       })
 
