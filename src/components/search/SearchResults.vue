@@ -9,8 +9,9 @@
       <span v-else-if="countProducts > 1">{{ countProducts }} results for "{{ this.usedKeyword }}"</span>
     </div>
 
-    <ul>
+    <ul class="products-list">
       <li 
+        class="product"
         v-for="(product, index) in products" 
         :key="product.id">
         <strong 
@@ -69,11 +70,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-ul {
+ul.products-list {
   padding-left: 0;
   list-style-position: inside;
 
-  li {
+  li.product {
     margin-bottom: .3em;
 
     /deep/ em {

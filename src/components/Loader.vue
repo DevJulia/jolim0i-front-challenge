@@ -6,7 +6,7 @@
 
 <style lang="scss" scoped>
 .simple-loader {
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
   
   &:after {
     overflow: hidden;
@@ -14,7 +14,7 @@
     vertical-align: bottom;    
     animation: ellipsis steps(4,end) 900ms infinite;
     content: "\2026";
-    width: 0px;
+    width: 0;
   }
 }
 </style>

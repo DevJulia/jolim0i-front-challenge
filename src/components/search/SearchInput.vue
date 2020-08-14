@@ -87,7 +87,7 @@ export default {
   }
   
   .submit-btn {
-    margin-left: 25px;
+    margin-left: 1.45rem;
   }
 
   @media screen and (max-width: 500px) {
