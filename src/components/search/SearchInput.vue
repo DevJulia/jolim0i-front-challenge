@@ -6,7 +6,7 @@
         type="text" 
         placeholder="Enter keyword(s)"
         @keyup.enter="search" />
-      <button class="clear-btn" @click="keyword = ''">Clear</button>
+      <button class="clear-btn" @click="resetKeyword">Clear</button>
       <button class="btn submit-btn" @click="search">Search</button>
     </div>
     
@@ -32,13 +32,12 @@ export default {
       }
 
       this.$emit('productsIsLoading', true);
-      this.error = '';
       
       try {
         const results = await getProducts(this.keyword.trim())
 
         this.$emit('productsLoaded', {
-          products: this.highlightKeyword(results), 
+          products: this.highlightKeywords(results), 
           usedKeyword: this.keyword
         });
       } catch(e) {
@@ -46,10 +45,10 @@ export default {
         console.error(e)
       } finally {
         this.$emit('productsIsLoading', false);
-        this.keyword = "";
+        this.resetKeyword();
       }
     },
-    highlightKeyword(results) {
+    highlightKeywords(results) {
       results.forEach((product) => {
         //Highlight typed keyword in search results
         let separatedKeywords = this.keyword.trim().split(' ');
@@ -65,6 +64,9 @@ export default {
       })
 
       return results;
+    },
+    resetKeyword() {
+      this.keyword = "";
     }
   }
 }
