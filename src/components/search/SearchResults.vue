@@ -15,7 +15,7 @@
         :key="product.id">
         <strong 
           class="product-name"
-          @click="selectedProduct == index ? selectedProduct = null : selectedProduct = index" 
+          @click="toggleProduct(index)" 
           :inner-html.prop="product.brand | capitalize"
           data-testid="product-name"></strong> - 
         <span :inner-html.prop="product.name | capitalize"></span>
@@ -48,6 +48,11 @@ export default {
   data() {
     return {
       selectedProduct: null,
+    }
+  },
+  methods: {
+    toggleProduct(index) {
+      this.selectedProduct == index ? this.selectedProduct = null : this.selectedProduct = index;
     }
   },
   computed: {
