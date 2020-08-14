@@ -82,6 +82,7 @@ describe('SearchResults', () => {
       ],
       usedKeyword: 'cream'
     })
+
     await wrapper.vm.$nextTick();
 
     //3. Check that the ingredients are not shown
