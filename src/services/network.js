@@ -14,7 +14,7 @@ function getProducts(keyword) {
       }
     })
     .then(res => res.data)
-    .catch(err => err)
+    .catch(err => { throw new Error(err) })
 }
 
 export { getProducts }

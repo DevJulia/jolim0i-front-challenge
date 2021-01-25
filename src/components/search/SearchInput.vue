@@ -6,7 +6,7 @@
         type="text" 
         placeholder="Enter keyword(s)"
         @keyup.enter="search" />
-      <button class="clear-btn" @click="keyword = ''">Clear</button>
+      <button class="clear-btn" @click="resetKeyword">Clear</button>
       <button class="btn submit-btn" @click="search">Search</button>
     </div>
     
@@ -25,53 +25,48 @@ export default {
     }
   },
   methods: {
-    search() {
+    async search() {
       if (this.keyword == '') {
         this.error = "Please enter a keyword"
         return;
       }
 
       this.$emit('productsIsLoading', true);
-      this.error = '';
+      
+      try {
+        const results = await getProducts(this.keyword.trim())
 
-      getProducts(this.keyword.trim())
-        .then(res => {
-          this.$emit('productsIsLoading', false);
-
-          if (res instanceof Error) {
-            this.error = res;
-            return;
-          }
-
-          this.$emit('productsLoaded', {
-            products: this.highlightKeyword(res), 
-            usedKeyword: this.keyword
-          });
-          
-          //Reset input
-          this.keyword = "";
-        })
-        .catch(err => {
-          this.error = err;
-        })
+        this.$emit('productsLoaded', {
+          products: this.highlightKeywords(results), 
+          usedKeyword: this.keyword
+        });
+      } catch(e) {
+        this.error = "An error has occured"
+        console.error(e)
+      } finally {
+        this.$emit('productsIsLoading', false);
+        this.resetKeyword();
+      }
     },
-    highlightKeyword(results) {
+    highlightKeywords(results) {
       results.forEach((product) => {
         //Highlight typed keyword in search results
-        let replaces = this.keyword.trim().split(' ');
+        let separatedKeywords = this.keyword.trim().split(' ');
         product.ingredient_list = product.ingredient_list.join(", ");
 
-        replaces.forEach((replace) => {
-          let re = new RegExp(replace, "g");
+        separatedKeywords.forEach((keyword) => {
+          let regExp = new RegExp(keyword, "g");
 
-          product.name = product.name.replace(re, `<em>${replace}</em>`);
-          product.brand = product.brand.replace(re, `<em>${replace}</em>`);
-
-          product.ingredient_list = product.ingredient_list.replace(re, `<em>${replace}</em>`);
+          product.name = product.name.replace(regExp, `<em>${keyword}</em>`);
+          product.brand = product.brand.replace(regExp, `<em>${keyword}</em>`);
+          product.ingredient_list = product.ingredient_list.replace(regExp, `<em>${keyword}</em>`);
         })
       })
 
       return results;
+    },
+    resetKeyword() {
+      this.keyword = "";
     }
   }
 }
@@ -93,7 +88,7 @@ export default {
   }
   
   .submit-btn {
-    margin-left: 25px;
+    margin-left: 1.45rem;
   }
 
   @media screen and (max-width: 500px) {

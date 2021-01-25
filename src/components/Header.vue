@@ -1,21 +1,21 @@
 <template>
-  <header>
+  <header class="main-header">
     <h1>This is a page for beauty product search</h1>
-    <img alt="Beauty products" src="@/assets/beauty-products.jpg">
+    <img class="main-header--img" alt="Beauty products" src="@/assets/beauty-products.jpg">
   </header>
 </template>
 
 <style lang="scss" scoped>
-header {
+.main-header {
   display: flex;
   background-color: $primary;
   color: $black;
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 2.7rem;
   height: 50vh;
 
   h1,
-  img {
+  .main-header--img {
     width: 50%;
   }
 
@@ -28,7 +28,7 @@ header {
     margin: 0;
   }
   
-  img {
+  .main-header--img {
     object-fit: cover;
   }
 
@@ -37,7 +37,7 @@ header {
     flex-direction: column;
 
     h1,
-    img {
+    .main-header--img {
       width: 100%;
       height: 50vh;
       max-height: 300px;

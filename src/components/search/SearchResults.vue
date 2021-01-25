@@ -9,13 +9,14 @@
       <span v-else-if="countProducts > 1">{{ countProducts }} results for "{{ this.usedKeyword }}"</span>
     </div>
 
-    <ul>
+    <ul class="products-list">
       <li 
+        class="product"
         v-for="(product, index) in products" 
         :key="product.id">
         <strong 
           class="product-name"
-          @click="selectedProduct == index ? selectedProduct = null : selectedProduct = index" 
+          @click="toggleProduct(index)" 
           :inner-html.prop="product.brand | capitalize"
           data-testid="product-name"></strong> - 
         <span :inner-html.prop="product.name | capitalize"></span>
@@ -50,6 +51,11 @@ export default {
       selectedProduct: null,
     }
   },
+  methods: {
+    toggleProduct(index) {
+      this.selectedProduct == index ? this.selectedProduct = null : this.selectedProduct = index;
+    }
+  },
   computed: {
     countProducts() {
       return this.products.length
@@ -64,11 +70,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-ul {
+ul.products-list {
   padding-left: 0;
   list-style-position: inside;
 
-  li {
+  li.product {
     margin-bottom: .3em;
 
     /deep/ em {
